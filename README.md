@@ -1,6 +1,6 @@
-# Data Analytics and Programming with Python in Economics
+## Data Analytics and Programming with Python in Economics
 
-## Notebooks
+### Notebooks
 
 - [Session 1](notebooks_public/session1.ipynb)
 - [Session 2](notebooks_public/session2.ipynb)
