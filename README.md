@@ -8,3 +8,4 @@
 - [Measures of Association Between Variables, Statistical Inference (Sessions 6-8)](notebooks_public/measures_of_association.ipynb)
 - [Linear Regression Introduction (Sessions 9-10)](notebooks_public/linear_regression.ipynb)
 - [Linear Regression: Application to Gender Pay Gaps (Sessions 11-12)](notebooks_public/linear_regression_gpg.ipynb)
+- [Linear Regression: Predicting Hourly Pay (Session 12)](notebooks_public/linear_regression_prediction.ipynb)
