@@ -9,6 +9,10 @@ format:
             - right=1.5cm
             - top=1.5cm
             - bottom=1.5cm
+        include-in-header:
+            text: |
+                \usepackage{tabularx}
+                \usepackage{booktabs}
 ---
 
 ### Preparations
@@ -37,10 +41,32 @@ ROOT = r'C:\Users\PC_DS_ECON_5\Desktop\data-analytics-python'
 hotels_europe = pd.read_parquet(ROOT + '/data/hotels_europe_restr_df.parquet')
 ```
 
-#### Selecting Data for Analysis
+#### Variables
 
 ```{python}
 hotels_europe.columns
+```
+
+```{=latex}
+\begin{table}[ht]
+\centering
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Variable} & \textbf{Description} \\
+\midrule
+\texttt{hotel\_id} & Hotel identifier. \\
+\texttt{yearmonth} & Month of observation. \\
+\texttt{city} & City in which the hotel is located. \\
+\texttt{distance} & Distance between the hotel and the city center (km). \\
+\texttt{stars} & Hotel star rating. \\
+\texttt{rating} & Average customer rating. \\
+\texttt{country} & Country in which the hotel is located. \\
+\texttt{accommodation\_type} & Type of accommodation offered by the hotel. \\
+\texttt{price} & Hotel price per night (USD). \\
+\texttt{holiday} & Indicator for whether the observation refers to a holiday period. \\
+\bottomrule
+\end{tabularx}
+\end{table}
 ```
 
 \newpage
@@ -144,7 +170,8 @@ c. Why are `drop_duplicates()` and `dropna()` used?
 
 ```{python}
 df0= hotels_europe.copy()
-print(df0['stars'].dtype)
+print('stars variable datatype:', df0['stars'].dtype)
+
 stars_unique_values= (
     df0['stars']
         .drop_duplicates()
