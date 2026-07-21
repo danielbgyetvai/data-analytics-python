@@ -13,3 +13,4 @@
 ### PDF files
 
 - [Review Exercises (Sessions 13-14)](quarto_public/exercises.pdf)
+- [Review Exercises with Solutions up to Exercise 5](quarto_public/exercises_sol_01_to_05.pdf)
