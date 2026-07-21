@@ -1,5 +1,5 @@
 ---
-title: "Review Exercises (with Solutions up to Ex. 5.)"
+title: "Review Exercises with Solutions"
 format: 
     pdf:
         fig-width: 8
@@ -417,9 +417,31 @@ hotels_europe = df0.copy()
 
 a. In the code below, what is the purpose of the line with `.loc`?
 
+::: {.callout-note}
+## Possible Answer
+
+The purpose of `.loc` is to keep only the observations for which `price` is not missing.
+:::
+
 b. For each of the statistics `statistic[1]`, `statistic[2]`, `statistic[3]`, `statistic[4]`:
     i. Explain what the statistic corresponds to.
     ii. Whether it is a measure of central tendency or a measure of dispersion.   
+
+::: {.callout-note}
+## Possible Answer
+
+`statistic[1]` is the mean: the sum of all observed values of `price` divided by the number of observations. 
+The mean is a measure of central tendency. 
+
+`statistic[2]` is the variance: the mean of squared deviations from the mean. 
+The variance is a measure of dispersion. 
+
+`statistic[3]` is the standard deviation: the square root of the variance. 
+The standard deviation is a measure of dispersion. 
+
+`statistic[4]` is the median: the 0.5-quantile. About 50% of the observations have a price less than or equal to the median.
+The median is a measure of central tendency. 
+:::
 
 ```{python}
 df0 = hotels_europe.copy()
@@ -462,7 +484,28 @@ print(
 
 a. Explain the purpose of the use of the two `.loc` in the code below.
 
+::: {.callout-note}
+## Possible Answer
+
+The purpose of the first `.loc` is to keep only the observations that satisfy all the following criteria: 
+- with `yearmonth == '2017-11-01'`, i.e. from November 2017
+- `city` is either Paris, London, or Rome
+- `distance` is less than or equal to 10 km
+- `distance` is not missing
+- `price` is not missing
+
+The second use of `.loc` selects only the observations corresponding to one city at a time so that each city can be plotted separately.
+
+:::
+
 b. Based on the code and the output below, holding city constant, does price appear to be mean independent from distance? Formally, does it appear to be the case that $\mathbb{E}[price \mid distance, city] \approx \mathbb{E}[price \mid city]$ ? Briefly justify your answer.
+
+::: {.callout-note}
+## Possible Answer
+
+No. For each of the three cities, there appears to be a reasonably clear negative relationship between the mean price and the distance to the city centre. 
+:::
+
 
 ```{python}
 df0 = hotels_europe.copy()
@@ -526,6 +569,19 @@ price &=& \beta_1 \cdot distance + \beta_{0, London} \cdot \mathbb{1}[city = Lon
 $$
 
 What is the interpretation of each of the coefficients $\beta_1, \beta_{0, London}, \beta_{0, Paris}, \beta_{0, Rome}$ ?
+
+::: {.callout-note}
+## Possible Answer
+
+$\widehat{\beta}_1 \approx -17.35$ means that holding city constant, hotels one kilometer further from the city centre tend to have prices that are about 17 USD lower on average.
+
+$\widehat{\beta}_{0, London} \approx 250$ means that the predicted average price per night in the city centre (`distance=0`) of London is 250 USD. 
+
+$\widehat{\beta}_{0, Paris} \approx 230$ means that the predicted average price per night in the city centre (`distance=0`) of Paris is 230 USD.
+
+$\widehat{\beta}_{0, Rome} \approx 130$ means that the predicted average price per night in the city centre (`distance=0`) of Rome is 130 USD.
+
+:::
 
 
 ```{python}
@@ -606,6 +662,20 @@ Consider the following three regressions implemented by the code below.
 
 Explain what the two identical values printed at the end of the code represent.
 
+::: {.callout-note}
+## Possible Answer
+
+The two values represent the omitted variable bias in the estimated coefficient of `distance` (the regressor of interest) that arises from omitting `rating_centered` (demeaned hotel ratings) from the regression. In both cases, the other control variables (city dummies) remain the same.
+
+As expected, the difference between the two coefficient estimates is equal to the product of:
+
+- the estimated coefficient of `rating_centered` (the control variable) in the regression that includes it, and
+
+- the estimated coefficient of `distance` in the auxiliary regression of `rating_centered` (the omitted control variable) on `distance` and the other control variables (city dummies).
+  
+:::
+
+
 ```{python}
 df0 = hotels_selected.copy()
 cities = ['Paris', 'London', 'Rome']
@@ -665,9 +735,30 @@ $$
 
 a. What is the interpretation of the intercept coefficient $\widehat{\beta}_0$ / `Intercept`?
 
+::: {.callout-note}
+## Possible Answer
+
+$\widehat{\beta}_0 \approx 256$ means that the predicted average price for a hotel in London (the reference city) with an average rating (`rating_centered = 0`) and within a 1 km radius of the city centre (the reference distance category) is approximately 256 USD.
+
+:::
+
 b. What is the interpretation of coefficient $\widehat{\beta}_{(3,4]}$ / `distance_cat[T.(3, 4]]`?
 
+::: {.callout-note}
+## Possible Answer
+
+$\widehat{\beta}_{(3,4]} \approx -72.3$ means that, holding city and hotel rating constant, the predicted average price for hotels located between 3 and 4 kilometres from the city centre is approximately 72 USD lower than for hotels within a 1 km radius of the city centre (the reference distance category).
+
+:::
+
 c. What is the interpretation of coefficient $\widehat{\delta}_{Rome}$ / `city[T.Rome]`?
+
+::: {.callout-note}
+## Possible Answer
+
+$\widehat{\delta}_{Rome} \approx -138$ means that, holding distance category and hotel rating constant, the predicted average price for hotels in Rome is approximately 138 USD lower than for hotels in London (the reference city).
+
+:::
 
 
 ```{python}
@@ -753,11 +844,46 @@ The code below:
 
 a. Based on the bootstrap percentile method, how would you construct a symmetric 95% confidence interval for the regression coefficient? Which quantile would be the lower bound and which quantile would be the upper bound?
 
+::: {.callout-note}
+## Possible Answer
+
+For a symmetric 95% confidence interval based on the bootstrap percentile method:
+ - the lower bound is the 2.5th percentile of the bootstrap distribution: −82.6
+ - the upper bound is the 97.5th percentile of the bootstrap distribution: −62.0
+
+
+Then, about 2.5% of the simulated coefficient values fall below the lower bound and about 2.5% fall above the upper bound. Therefore, approximately 95% of the simulated bootstrap estimates lie between these two bounds.
+:::
+
 b. What is the reason behind constructing a confidence interval instead of simply interpreting the estimated coefficient as the true regression coefficient? 
+
+::: {.callout-note}
+## Possible Answer
+
+We only observe one sample of data. If we repeatedly drew different random samples from the same population, the estimated coefficient would vary. The confidence interval reflects the sampling uncertainty in the estimated coefficient.
+:::
+
+::: {.callout-note}
+## Side Note
+
+The population could actually be a real / existing population (all hotels in the three cities within 10km from the city centre) from which our data were drawn. But the population could also be thought of as the unknown statistical process that generated the data, i.e. the process through which hotel prices are determined. It could happen that we observe all hotels in the three cities within 10km from the city centre and we still call our data a sample, in which case our population is theoretical in nature. The statistical population can be real (existing) or theoretical. In the latter case, we mean by population the underlying unknown complex joint distribution of random variables.
+:::
 
 c. Which familiar probability distribution does the shape of the bootstrap distribution resemble?  
 
+::: {.callout-note}
+## Possible Answer
+
+The bootstrap distribution looks like a normal distribution. It appears symmetric and bell-shaped.
+:::
+
 d. What would be another approach to constructing a confidence interval for the regression coefficient? Which theorem can be used to justify this approach? What does the theorem say?
+
+::: {.callout-note}
+## Possible Answer
+
+Another approach would be analytical (i.e. without simulation) using large sample theory. The theorem that could be used is the Central Limit Theorem (CLT). In its simplest form, the CLT says that the distribution of the sample mean looks more and more like a normal distribution as the sample size increases. In sufficiently large samples, the distribution of the sample mean can be well approximated by a normal distribution. The CLT also applies in the context of OLS linear regression coefficients. Under suitable assumptions, the distribution of OLS coefficient estimators is well approximated by a normal distribution in large samples.
+:::
 
 ```{python}
 df0= hotels_selected.copy()
